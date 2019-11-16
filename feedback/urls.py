@@ -18,10 +18,20 @@ from django.urls import path
 
 from django.contrib import admin
 from django.urls import path
-from webapp import views as webapp_views
+from django.urls import path
+from webapp.views import IndexView, ProductView, ProductCreateView, \
+    ProductUpdateView, ProductDeleteView, ReviewCreateView, ReviewForProductCreateView, \
+    ReviewListView, ReviewUpdateView, ReviewDeleteView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', webapp_views.IndexView)
-
+    path('', IndexView, name='index'),
+    path('product/<int:pk>/', ProductView.as_view(), name='product_view'),
+    path('product/add/', ProductCreateView.as_view(), name='product_add'),
+    path('product/<int:pk>/edit/', ProductUpdateView.as_view(), name='product_update'),
+    path('product/<int:pk>/delete/', ProductDeleteView.as_view(), name='product_delete'),
+    path('comments/', ReviewListView.as_view(), name='comment_list'),
+    path('comment/add/', ReviewCreateView.as_view(), name='comment_add'),
+    path('comment/<int:pk>/edit/', ReviewUpdateView.as_view(), name='comment_update'),
+    path('comment/<int:pk>/delete/', ReviewDeleteView.as_view(), name='comment_delete'),
+    path('product/<int:pk>/add-comment/', ReviewForProductCreateView.as_view(), name='product_comment_create'),
 ]
