@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% with object.categories.all as categories %}
+    {% if categories %}
+        <p>{% for category in categories %}
+            <a href="{% url 'webapp:index' %}?search={{ category.name }}">{{ category }}</a>
+        {% endfor %}</p>
+    {% endif %}
+{% endwith %}

@@ -1,10 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block menu %}
+    {% if product.name == request.user %}
+        <li><a href="{% url 'webapp:article_update' product.pk %}">Edit</a></li>
+        <li><a href="{% url 'webapp:article_delete' product.pk %}">Delete</a></li>
+    {% endif %}
+    {% if product %}
+        <li><a href="#add_comment">Add Review</a></li>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ product.title }}</h1>
+    <p>Created by {{ product.name }} ({{ product.category|default_if_none:'Без категории' }})
+        at {{ product.created_at|date:'d.m.Y H:i:s' }}</p>
+    {% include 'partial/cat_bar.html' with object=product %}
+    <div class="pre">{{ product.pro_text }}</div>
+    <hr/>
+    <h3>Comments:</h3>
+    {% if is_paginated %}
+        {% include 'partial/pagination.html' %}
+    {% endif %}
+    <div class="comment-list">
+        {% for comment in comments %}
+            <div class="comment">
+                <p>{{ comment.author }} commented at {{ comment.created_at|date:'d.m.Y H:i:s' }}</p>
+                <div class="pre">{{ comment.text }}</div>
+                {% if product and request.user == comment.author %}
+                    <p class="comment-links">
+                        <a href="{% url 'webapp:comment_update' comment.pk %}">Edit</a>
+                        <a href="{% url 'webapp:comment_delete' comment.pk %}">Delete</a>
+                    </p>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>No comments yet.</p>
+        {% endfor %}
+    </div>
+    {% if is_paginated %}
+        {% include 'partial/pagination.html' %}
+    {% endif %}
+    {% if article.is_active %}
+        <form action="{% url 'webapp:product_comment_create' product.pk %}" method="POST" id="add_comment">
+            {% include 'partial/form.html' with button_text='Add' %}
+        </form>
+    {% endif %}
+{% endblock %}

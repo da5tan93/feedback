@@ -1,10 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block menu %}
+    <li><a href="{% url 'webapp:product_add' %}">Add product</a></li>
+{% endblock %}
+
+{% block content %}
+    <section>
+        <h1>Product:</h1>
+        {% if is_paginated %}
+            {% include 'partial/pagination.html' %}
+        {% endif %}
+        {% include 'product/partial/list.html' %}
+        {% if is_paginated %}
+            {% include 'partial/pagination.html' %}
+        {% endif %}
+    </section>
+{% endblock %}

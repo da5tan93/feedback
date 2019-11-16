@@ -1,10 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block title %}Update Product{% endblock %}
+
+{% block menu %}
+    <li><a href="{% url 'webapp:product_view' product.pk %}">View</a></li>
+{% endblock %}
+
+{% block content %}
+    <h1>Update Product</h1>
+    <form method="POST" action="{% url 'webapp:product_update' product.pk %}">
+        {% include 'partial/form.html' with button_text="Update" %}
+    </form>
+{% endblock %}

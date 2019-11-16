@@ -1,10 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<hr/>
+{% for product in products %}
+    <h2>{{ product.title }}</h2>
+    <p>Created by {{ product.author }} ({{ product.category|default_if_none:'Без категории' }})
+        at {{ product.created_at|date:'d.m.Y H:i:s' }}</p>
+    {% include 'partial/cat_bar.html' with object=product %}
+    <p>
+        <a href="{% url 'webapp:product_view' product.pk %}">More...</a>
+        <a href="{% url 'webapp:product_update' product.pk %}">Edit</a>
+        <a href="{% url "webapp:product_delete" product.pk %}">Delete</a>
+    </p>
+    <hr/>
+{% endfor %}
