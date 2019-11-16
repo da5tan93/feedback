@@ -24,7 +24,8 @@ from webapp.views import IndexView, ProductView, ProductCreateView, \
     ReviewListView, ReviewUpdateView, ReviewDeleteView
 
 urlpatterns = [
-    path('', IndexView, name='index'),
+    path('admin/', admin.site.urls),
+    path('', IndexView.as_view(), name='index'),
     path('product/<int:pk>/', ProductView.as_view(), name='product_view'),
     path('product/add/', ProductCreateView.as_view(), name='product_add'),
     path('product/<int:pk>/edit/', ProductUpdateView.as_view(), name='product_update'),
@@ -33,5 +34,5 @@ urlpatterns = [
     path('comment/add/', ReviewCreateView.as_view(), name='comment_add'),
     path('comment/<int:pk>/edit/', ReviewUpdateView.as_view(), name='comment_update'),
     path('comment/<int:pk>/delete/', ReviewDeleteView.as_view(), name='comment_delete'),
-    path('product/<int:pk>/add-comment/', ReviewForProductCreateView.as_view(), name='product_comment_create'),
+    path('product/<int:pk>/add-comment/', ReviewForProductCreateView.as_view(), name='article_comment_create'),
 ]
