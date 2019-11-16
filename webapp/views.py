@@ -56,10 +56,10 @@ class ProductCreateView(CreateView):
         self.object = form.save(commit=False)
         self.object.name = self.request.name
         self.object.save()
-        self.save_tags(form.cleaned_data.get('categories'))
+        self.save_categories(form.cleaned_data.get('categories'))
         return HttpResponseRedirect(self.get_success_url())
 
-    def save_tags(self, categories):
+    def save_categories(self, categories):
         for cat in categories:
             category, _ = Categories.objects.get_or_create(name=cat)
             self.object.categories.add(category)

@@ -42,18 +42,18 @@ class ProductForm(forms.ModelForm):
 
 
 class ReviewForm(forms.ModelForm):
-    def __init__(self, name, **kwargs):
+    def __init__(self, user, **kwargs):
         super().__init__(**kwargs)
         self.fields['product'].queryset = Product.objects.filter(
             category=Categories,
-        ).exclude(name=name)
+        ).exclude(author=user)
 
     class Meta:
         model = Review
-        exclude = ['product', 'author', 'score']
+        exclude = ['author', 'email', 'rev_text', 'score']
 
 
 class ProductCommentForm(forms.ModelForm):
     class Meta:
         model = Review
-        fields = ['text']
+        fields = ['rev_text']
